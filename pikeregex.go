@@ -2,16 +2,15 @@ package pikeregex
 
 // search for c*regex at beginning of text
 func matchstar(c rune, regex []rune, text []rune) bool {
-	if matchhere(regex, text) {
-		return true
-	}
-	for len(text) > 0 && (text[0] == c || c == '.') {
-		text = text[1:]
+	for {
 		if matchhere(regex, text) {
 			return true
 		}
+		if ! (len(text) > 0 && (text[0] == c || c == '.')) {
+			return false
+		}
+		text = text[1:]
 	}
-    return false
 }
 
 // search for regex at beginning of text
