@@ -37,8 +37,7 @@ func Match(regex string, text string) bool {
         return len(regex) == len(text)
     }
 
-    runerx := []rune(regex)
-//    runerx := simpleCompile(regex)
+    runerx := compile(regex)
     runetxt := []rune(text)
 
     if runerx[0] == '^' {
@@ -52,19 +51,16 @@ func Match(regex string, text string) bool {
     return false
 }
 
-// one enhancment: allow + (1 or more) notation
-func simpleCompile(regex string) (regslc []rune) {
-	regslc = make([]rune, len(regex), int(float32(len(regex)) * 1.5))
+// one enhancement: allow + (1 or more) notation
+func compile(regex string) (regslc []rune) {
+	regslc = make([]rune, 0, len(regex) + 10)
 
-	var prev *rune
-	offset := 0
-	for i, r := range regex {
-		if r == '+' && prev != nil {
-			regslc[i + offset] = *prev
-			offset++
-		}
-		*prev, regslc[i + offset] = r, r
-	}
-
+    for _, r := range regex {
+        if r == '+' {
+            regslc = append(regslc, regslc[len(regslc) - 1], '*')
+        } else {
+            regslc = append(regslc, r)
+        }
+    }	
 	return regslc
 }

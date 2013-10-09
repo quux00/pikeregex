@@ -7,12 +7,64 @@ import (
 var isMatch bool
 var regex, text string
 
-func TestSimpleCompile(t *testing.T) {	
+func TestCompile(t *testing.T) {	
+	var expected string
+	var rs string
+
     regex = "ab*c"
-	rs := simpleCompile(regex)
-	if string(rs) != regex {
-        t.Errorf("Should have matched: >>%s<< and >>%s<<", regex, rs)
+	expected = regex
+	rs = string( compile(regex) )
+	if rs != regex {
+        t.Errorf("Should have matched: >>%s<< and >>%s<<", expected, rs)
 	}
+
+    regex = "ab*cd+e"
+	expected = "ab*cdd*e"
+	rs = string( compile(regex) )
+	if rs != expected {
+        t.Errorf("Should have matched: >>%s<< and >>%s<<", expected, rs)
+	}
+
+    regex = "a+"
+	expected = "aa*"
+	rs = string( compile(regex) )
+	if rs != expected {
+        t.Errorf("Should have matched: >>%s<< and >>%s<<", expected, rs)
+	}
+}
+
+func TestRegexCharPlus(t *testing.T) {
+    regex = "ab*cd+e"
+	text = "abcde"
+	isMatch = Match(regex, text)
+    if !isMatch {
+        t.Errorf("Should have matched: >>%s<< and >>%s<<", regex, text)
+    }
+
+
+	text = "acde"
+	isMatch = Match(regex, text)
+    if !isMatch {
+        t.Errorf("Should have matched: >>%s<< and >>%s<<", regex, text)
+    }
+
+	text = "acdddddee"
+	isMatch = Match(regex, text)
+    if !isMatch {
+        t.Errorf("Should have matched: >>%s<< and >>%s<<", regex, text)
+    }
+
+	text = "aabbbbbbcdddddee"
+	isMatch = Match(regex, text)
+    if !isMatch {
+        t.Errorf("Should have matched: >>%s<< and >>%s<<", regex, text)
+    }
+
+	text = "aabbbbbbcee"
+	isMatch = Match(regex, text)
+    if isMatch {
+        t.Errorf("Should NOT have matched: >>%s<< and >>%s<<", regex, text)
+    }	
 }
 
 func TestRegexCharStar(t *testing.T) {
@@ -22,6 +74,7 @@ func TestRegexCharStar(t *testing.T) {
     if !isMatch {
         t.Errorf("Should have matched: >>%s<< and >>%s<<", regex, text)
     }
+
     regex = "ab*c"
     text = "abbbc"
     isMatch = Match(regex, text)
