@@ -41,10 +41,10 @@ int match(char *regexp, char *text) {
 
 
 int main() {
-  printf("%s\n", "back to C, baby");
-  printf("matches: %d\n", match("c*har", "harlie"));
-  printf("matches: %d\n", match("c*har", "charlie"));
-  printf("matches: %d\n", match("c*har", "ccharlie"));
-  printf("matches: %d\n", match("c*har", "ccha"));
+  printf("matches?: %d\n", match("", "z"));
+  /* printf("matches: %d\n", match("c*har", "harlie")); */
+  /* printf("matches: %d\n", match("c*har", "charlie")); */
+  /* printf("matches: %d\n", match("c*har", "ccharlie")); */
+  /* printf("matches: %d\n", match("c*har", "ccha")); */
   return 0;
 }

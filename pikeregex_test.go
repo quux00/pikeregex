@@ -225,6 +225,7 @@ func TestRegexNoModifiers(t *testing.T) {
 }
 
 func TestEmptyRegex(t *testing.T) {
+	// an empty regex should match everything
     regex = ""
     text = ""
     isMatch = Match(regex, text)
@@ -234,7 +235,13 @@ func TestEmptyRegex(t *testing.T) {
 
     text = "z"
     isMatch = Match(regex, text)
-    if isMatch {
-        t.Errorf("Should not have matched: >>%s<< and >>%s<<", regex, text)
+    if !isMatch {
+        t.Errorf("Should have matched: >>%s<< and >>%s<<", regex, text)
+    }
+
+    text = " 123 "
+    isMatch = Match(regex, text)
+    if !isMatch {
+        t.Errorf("Should have matched: >>%s<< and >>%s<<", regex, text)
     }
 }

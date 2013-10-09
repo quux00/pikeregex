@@ -32,22 +32,22 @@ func matchhere(regex []rune, text []rune) bool {
 
 // search for regex anywhere in the text
 func Match(regex string, text string) bool {
-    if len(text) == 0 || len(regex) == 0 {
-        return len(regex) == len(text)
-    }
-
     runerx := compile(regex)
     runetxt := []rune(text)
 
-    if runerx[0] == '^' {
-        return matchhere(runerx[1:], runetxt)
-    }
-    for ; len(runetxt) > 0; runetxt = runetxt[1:] {
-        if matchhere(runerx, runetxt) {
-            return true
-        }
-    }
-    return false
+	if len(runerx) > 0 && runerx[0] == '^' {
+		return matchhere(runerx[1:], runetxt)
+	}
+
+	for {
+		if matchhere(runerx, runetxt) {
+			return true
+		}
+		if len(runetxt) == 0 {
+			return false
+		}
+		runetxt = runetxt[1:]
+	}
 }
 
 // one enhancement: allow + (1 or more) notation
