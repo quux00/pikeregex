@@ -2,6 +2,8 @@ A small regular expression library written in Go, based on code written by Rob P
 
 See my blog entry for further details: http://thornydev.blogspot.com/2013/10/beautiful-code-ported-to-go.html
 
+Rob Pike's original version is in the "cversion" folder.
+
 ## License
 
 Released under the [MIT License](http://opensource.org/licenses/MIT).
